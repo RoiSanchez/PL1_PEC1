@@ -55,6 +55,7 @@ parser code {:
 terminal Token PLUS;
 terminal Token MINUS;
 terminal Token COMMENT;
+//Palabras reservadas
 terminal Token BEGIN;
 terminal Token BOOLEAN;
 terminal Token CONST;
@@ -63,8 +64,11 @@ terminal Token END;
 terminal Token FALSE;
 terminal Token FUNCTION;
 terminal Token IF;
-terminal Token INNTEGER;
+terminal Token INTEGER;
 terminal Token OF;
+terminal Token OR;
+terminal Token PROCEDURE;
+terminal Token PROGRAM
 terminal Token REPEAT;
 terminal Token SET;
 terminal Token THEN;

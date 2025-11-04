@@ -68,7 +68,30 @@ fin = "fin"{ESPACIO_BLANCO}
                         }
 
 
-
+  /* *******************************
+  PALABRAS RESERVADAS
+  ******************************** */
+  "begin" { return createToken(sym.BEGIN); }
+  "boolean" { return createToken(sym.BOOLEAN); }
+  "const" { return createToken(sym.CONST); }
+  "else" { return createToken(sym.ELSE); }
+  "end" { return createToken(sym.END); }
+  "false" { return createToken(sym.FALSE); }
+  "function" { return createToken(sym.FUNCTION); }
+  "if"  { return createToken(sym.IF); }
+  "integer"  { return createToken(sym.INTEGER); }
+  "of"  { return createToken(sym.OF); }
+  "or"  { return createToken(sym.OR); }
+  "procedure"  { return createToken(sym.PROCEDURE); }
+  "program"  { return createToken(sym.PROGRAM); }
+  "repeat"  { return createToken(sym.REPEAT); }
+  "set"  { return createToken(sym.SET); }
+  "then"  { return createToken(sym.THEN); }
+  "true"  { return createToken(sym.TRUE); }
+  "type"  { return createToken(sym.TYPE); }
+  "until"  { return createToken(sym.UNTIL); }
+  "var"  { return createToken(sym.VAR); }
+  "write"  { return createToken(sym.WRITE); }
 
     // incluir aqui el resto de las reglas patron - accion
     "procedure" 	{
