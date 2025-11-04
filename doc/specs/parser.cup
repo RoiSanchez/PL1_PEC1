@@ -54,8 +54,25 @@ parser code {:
 
 terminal Token PLUS;
 terminal Token MINUS;
-terminal Token PROCEDURE;
 terminal Token COMMENT;
+terminal Token BEGIN;
+terminal Token BOOLEAN;
+terminal Token CONST;
+terminal Token ELSE;
+terminal Token END;
+terminal Token FALSE;
+terminal Token FUNCTION;
+terminal Token IF;
+terminal Token INNTEGER;
+terminal Token OF;
+terminal Token REPEAT;
+terminal Token SET;
+terminal Token THEN;
+terminal Token TRUE;
+terminal Token TYPE;
+terminal Token UNTIL;
+terminal Token VAR;
+terminal Token WRITE;
 // ...
 
 
