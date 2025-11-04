@@ -27,9 +27,21 @@ import es.uned.lsi.compiler.lexical.LexicalErrorManager;
 %{
   LexicalErrorManager lexicalErrorManager = new LexicalErrorManager ();
   private int commentCount = 0;
-%}  
-  
 
+  private Token createToken(int tokenIdType) {
+    Token token = new Token(tokenIdType);
+    token.setLine (yyline + 1);
+    token.setColumn (yycolumn + 1);
+    token.setLexema (yytext ());
+    return token;
+  }
+
+%}
+
+
+
+  
+COMENTARIO_LINEA="//".*\n
 ESPACIO_BLANCO=[ \t\r\n\f]
 fin = "fin"{ESPACIO_BLANCO}
 
@@ -38,15 +50,16 @@ fin = "fin"{ESPACIO_BLANCO}
 
 <YYINITIAL> 
 {
-           			       
-    "+"                {  
-                           Token token = new Token (sym.PLUS);
-                           token.setLine (yyline + 1);
-                           token.setColumn (yycolumn + 1);
-                           token.setLexema (yytext ());
-           			       return token;
+    {COMENTARIO_LINEA} {
+                            return createToken(sym.COMMENT);
                         }
-    
+    "+"                {  
+                           return createToken(sym.PLUS);
+                        }
+
+
+
+
     // incluir aqui el resto de las reglas patron - accion
     "procedure" 	{
 			   Token token = new Token(1);
@@ -60,7 +73,7 @@ fin = "fin"{ESPACIO_BLANCO}
 
 {fin} {}
     
-    // error en caso de coincidir con ningún patrón
+    // error en caso de coincidir con ningï¿½n patrï¿½n
 	[^]     
                         {                                               
                            LexicalError error = new LexicalError ();

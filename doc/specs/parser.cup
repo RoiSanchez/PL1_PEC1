@@ -54,6 +54,8 @@ parser code {:
 
 terminal Token PLUS;
 terminal Token MINUS;
+terminal Token PROCEDURE;
+terminal Token COMMENT;
 // ...
 
 
@@ -70,7 +72,7 @@ precedence left     PLUS,
                     MINUS;
 // ...
 
-// Declaración de reglas de produccion
+// Declaraciï¿½n de reglas de produccion
 
 
 start with program;
