@@ -68,7 +68,7 @@ terminal Token INTEGER;
 terminal Token OF;
 terminal Token OR;
 terminal Token PROCEDURE;
-terminal Token PROGRAM
+terminal Token PROGRAM;
 terminal Token REPEAT;
 terminal Token SET;
 terminal Token THEN;
@@ -77,8 +77,18 @@ terminal Token TYPE;
 terminal Token UNTIL;
 terminal Token VAR;
 terminal Token WRITE;
-// ...
-
+//delimitadores
+terminal Token DOUBLE_QUOTE;
+terminal Token PARAM_EXPR_OPEN;
+terminal Token PARAM_EXPR_CLOSE;
+terminal Token RANGE_OPEN;
+terminal Token RANGE_CLOSE;
+terminal Token INT_LIST_DELIMITER;
+terminal Token VALUE_RANGE_DELIMITER;
+terminal Token END_PROGRAM;
+terminal Token END_SENTENCE;
+terminal Token DECLARATE_VAR_CTA_PARAM;
+terminal Token ASSIGN_VALUE_VAR_CTE;
 
 // Declaracion de no terminales
 // no modificar los propuestos

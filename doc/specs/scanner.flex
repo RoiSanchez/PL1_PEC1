@@ -63,9 +63,6 @@ fin = "fin"{ESPACIO_BLANCO}
     {COMENTARIO_LINEA} {
                             return createToken(sym.COMMENT);
                         }
-    "+"                {  
-                           return createToken(sym.PLUS);
-                        }
 
 
   /* *******************************
@@ -92,6 +89,27 @@ fin = "fin"{ESPACIO_BLANCO}
   "until"  { return createToken(sym.UNTIL); }
   "var"  { return createToken(sym.VAR); }
   "write"  { return createToken(sym.WRITE); }
+  /* *******************************
+  DELIMITADORES
+  ******************************** */
+  "\"" { return createToken(sym.DOUBLE_QUOTE); }
+  "(" { return createToken(sym.PARAM_EXPR_OPEN); }
+  ")"  { return createToken(sym.PARAM_EXPR_CLOSE); }
+  "[" { return createToken(sym.RANGE_OPEN); }
+  "]"  { return createToken(sym.RANGE_CLOSE); }
+  "," { return createToken(sym.INT_LIST_DELIMITER); }
+  ".."  { return createToken(sym.VALUE_RANGE_DELIMITER); }
+  "."  { return createToken(sym.END_PROGRAM); }
+  ";"  { return createToken(sym.END_SENTENCE); }
+  ":"  { return createToken(sym.DECLARATE_VAR_CTA_PARAM); }
+  "="  { return createToken(sym.ASSIGN_VALUE_VAR_CTE); }
+/* *******************************
+  OPERADORES ARITMETICOS
+  ******************************** */
+
+"+"                {
+                           return createToken(sym.PLUS);
+                        }
 
     // incluir aqui el resto de las reglas patron - accion
     "procedure" 	{
