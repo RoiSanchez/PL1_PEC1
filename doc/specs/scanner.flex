@@ -102,14 +102,28 @@ fin = "fin"{ESPACIO_BLANCO}
   "."  { return createToken(sym.END_PROGRAM); }
   ";"  { return createToken(sym.END_SENTENCE); }
   ":"  { return createToken(sym.DECLARATE_VAR_CTA_PARAM); }
-  "="  { return createToken(sym.ASSIGN_VALUE_VAR_CTE); }
-/* *******************************
+  "="  { return createToken(sym.EQUAL); }
+  /* *******************************
   OPERADORES ARITMETICOS
   ******************************** */
+  "+" { return createToken(sym.PLUS); }
+  "-" { return createToken(sym.MINUS); }
+  "*" { return createToken(sym.MULTI); }
+  /* *******************************
+  OPERADORES RELACIONALES
+  ******************************** */
+  ">" { return createToken(sym.GREATER_THAN); }
+  "<>" { return createToken(sym.NOT_EQUAL); }
+  /* *******************************
+  Operadores asignación
+  ******************************** */
+  ":=" { return createToken(sym.ASSIGN); }
+  /* *******************************
+  Operadores especiales
+  ******************************** */
+  "IN" { return createToken(sym.IN); }
 
-"+"                {
-                           return createToken(sym.PLUS);
-                        }
+
 
     // incluir aqui el resto de las reglas patron - accion
     "procedure" 	{

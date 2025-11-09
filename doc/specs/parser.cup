@@ -52,8 +52,6 @@ parser code {:
 
 // Declaracion de terminales (Ejemplo)
 
-terminal Token PLUS;
-terminal Token MINUS;
 terminal Token COMMENT;
 //Palabras reservadas
 terminal Token BEGIN;
@@ -87,8 +85,21 @@ terminal Token INT_LIST_DELIMITER;
 terminal Token VALUE_RANGE_DELIMITER;
 terminal Token END_PROGRAM;
 terminal Token END_SENTENCE;
+terminal Token EQUAL;
 terminal Token DECLARATE_VAR_CTA_PARAM;
 terminal Token ASSIGN_VALUE_VAR_CTE;
+//Operadores aritmeticos
+terminal Token PLUS;
+terminal Token MINUS;
+terminal Token MULTI;
+//Operadores relacionales
+terminal Token GREATER_THAN;
+terminal Token NOT_EQUAL;
+//Operadores asignación
+terminal Token ASSIGN;
+//Operadores especiales
+terminal Token IN;
+
 
 // Declaracion de no terminales
 // no modificar los propuestos
