@@ -27,6 +27,10 @@ import es.uned.lsi.compiler.lexical.LexicalErrorManager;
 %{
   LexicalErrorManager lexicalErrorManager = new LexicalErrorManager ();
   private int commentCount = 0;
+  private int constCount = 0;
+  private int typeCount = 0;
+  private int varCount = 0;
+
 
   private Token createToken(int tokenIdType) {
     Token token = new Token(tokenIdType);
@@ -35,6 +39,22 @@ import es.uned.lsi.compiler.lexical.LexicalErrorManager;
     token.setLexema (yytext ());
     return token;
   }
+
+  private void addLexicalError(){
+    addLexicalError("");
+  }
+
+  private void addLexicalError(String msg){
+      String completeMsg = "ERROR: %s.";
+      LexicalError error = new LexicalError (String.format(completeMsg, msg));
+      error.setLine (yyline + 1);
+      error.setColumn (yycolumn + 1);
+      error.setLexema (yytext ());
+
+      lexicalErrorManager.lexicalError (error);
+  }
+
+
 
 %}
 
@@ -70,7 +90,14 @@ fin = "fin"{ESPACIO_BLANCO}
   ******************************** */
   "begin" { return createToken(sym.BEGIN); }
   "boolean" { return createToken(sym.BOOLEAN); }
-  "const" { return createToken(sym.CONST); }
+  "const"  {
+                    if(constCount == 0){
+                      constCount++;
+                      return createToken(sym.CONST);
+                    } else {
+                        addLexicalError ("La palabra reservada const tan solo puede aparecer una vez");
+                    }
+                }
   "else" { return createToken(sym.ELSE); }
   "end" { return createToken(sym.END); }
   "false" { return createToken(sym.FALSE); }
@@ -85,9 +112,23 @@ fin = "fin"{ESPACIO_BLANCO}
   "set"  { return createToken(sym.SET); }
   "then"  { return createToken(sym.THEN); }
   "true"  { return createToken(sym.TRUE); }
-  "type"  { return createToken(sym.TYPE); }
+  "type" {
+             if(typeCount == 0){
+               typeCount++;
+               return createToken(sym.TYPE);
+             } else {
+                 addLexicalError ("La palabra reservada type tan solo puede aparecer una vez");
+             }
+         }
   "until"  { return createToken(sym.UNTIL); }
-  "var"  { return createToken(sym.VAR); }
+  "var"  {
+          if(varCount == 0){
+            varCount++;
+            return createToken(sym.VAR);
+          } else {
+              addLexicalError ("La palabra reservada var tan solo puede aparecer una vez");
+          }
+      }
   "write"  { return createToken(sym.WRITE); }
   /* *******************************
   DELIMITADORES
@@ -126,13 +167,7 @@ fin = "fin"{ESPACIO_BLANCO}
 
 
     // incluir aqui el resto de las reglas patron - accion
-    "procedure" 	{
-			   Token token = new Token(1);
-                           token.setLine (yyline + 1);
-                           token.setColumn (yycolumn + 1);
-                           token.setLexema (yytext ());
-           			       return token;
-			}
+
 
    {ESPACIO_BLANCO}	{}
 
@@ -141,16 +176,11 @@ fin = "fin"{ESPACIO_BLANCO}
     // error en caso de coincidir con ning�n patr�n
 	[^]     
                         {                                               
-                           LexicalError error = new LexicalError ();
-                           error.setLine (yyline + 1);
-                           error.setColumn (yycolumn + 1);
-                           error.setLexema (yytext ());
-                           lexicalErrorManager.lexicalError (error);
+                           addLexicalError ();
                         }
     
 }
 
 
-                         
 
 
