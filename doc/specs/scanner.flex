@@ -17,7 +17,7 @@ import es.uned.lsi.compiler.lexical.LexicalErrorManager;
 %column
 %cup
 %unicode
-
+%state YYEND
 
 %implements ScannerIF
 %scanerror LexicalError
@@ -58,12 +58,13 @@ import es.uned.lsi.compiler.lexical.LexicalErrorManager;
 
 %}
 
-
-
-  
 COMENTARIO_LINEA="//".*\n
 ESPACIO_BLANCO=[ \t\r\n\f]
-fin = "fin"{ESPACIO_BLANCO}
+DIGITO_POSITIVO=[1-9]
+DIGITO=[0-9]
+NUMERO_INICIA_CERO ="0"{DIGITO_POSITIVO}({DIGITO}*)
+NUMERO=("0" | {DIGITO_POSITIVO}({DIGITO}*))
+fin = "end."{ESPACIO_BLANCO}
 
 
 %%
@@ -163,24 +164,44 @@ fin = "fin"{ESPACIO_BLANCO}
   Operadores especiales
   ******************************** */
   "IN" { return createToken(sym.IN); }
-
-
+  /* *******************************
+  IDENTIFICADORES
+  ******************************** */
+  {NUMERO_INICIA_CERO} {
+          addLexicalError ("Un número de varios dígitos no puede comenzar por 0");
+      }
+  {NUMERO} {
+          return createToken(sym.NUMERO);
+      }
 
     // incluir aqui el resto de las reglas patron - accion
 
 
    {ESPACIO_BLANCO}	{}
 
-{fin} {}
+{fin} {
+          yybegin(YYEND);
+          return createToken(sym.END);
+      }
     
-    // error en caso de coincidir con ning�n patr�n
-	[^]     
+    // error en caso de coincidir con ningún patrón
+	[^]
                         {                                               
-                           addLexicalError ();
+                           addLexicalError ("Lexema que no coincide con ningún patrón esperado");
                         }
-    
+
 }
 
+<YYEND> {
 
+
+ {ESPACIO_BLANCO}	{}
+ // error en caso de coincidir con ningún patrón
+
+ [^] {
+                                 addLexicalError ("No puede contener texto una vez finalizado el programa");
+                              }
+
+}
 
 
