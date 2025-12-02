@@ -17,7 +17,9 @@ import es.uned.lsi.compiler.lexical.LexicalErrorManager;
 %column
 %cup
 %unicode
-%state YYEND
+%caseless
+%state END
+%state COMMENT
 
 %implements ScannerIF
 %scanerror LexicalError
@@ -59,11 +61,15 @@ import es.uned.lsi.compiler.lexical.LexicalErrorManager;
 %}
 
 COMENTARIO_LINEA="//".*\n
+COMENTARIO_ABRIR="{"
+COMENTARIO_CERRAR="}"
 ESPACIO_BLANCO=[ \t\r\n\f]
 DIGITO_POSITIVO=[1-9]
 DIGITO=[0-9]
 NUMERO_INICIA_CERO ="0"{DIGITO_POSITIVO}({DIGITO}*)
 NUMERO=("0" | {DIGITO_POSITIVO}({DIGITO}*))
+STRING="\"".*"\""
+IDENTIFICADR=[A-Za-z]([A-Za-z]|[0-9])*
 fin = "end."{ESPACIO_BLANCO}
 
 
@@ -81,11 +87,16 @@ fin = "end."{ESPACIO_BLANCO}
 
 <YYINITIAL> 
 {
-    {COMENTARIO_LINEA} {
-                            return createToken(sym.COMMENT);
-                        }
+    {COMENTARIO_ABRIR} {
+        System.out.print("YYINITIAL Abrir comentario");
+        commentCount++;
+        yybegin(COMMENT);
+    }
+    {COMENTARIO_LINEA} {}
 
-
+    {STRING} {
+        return createToken(sym.STRING);
+      }
   /* *******************************
   PALABRAS RESERVADAS
   ******************************** */
@@ -168,19 +179,22 @@ fin = "end."{ESPACIO_BLANCO}
   IDENTIFICADORES
   ******************************** */
   {NUMERO_INICIA_CERO} {
-          addLexicalError ("Un número de varios dígitos no puede comenzar por 0");
-      }
+    addLexicalError ("Un número de varios dígitos no puede comenzar por 0");
+  }
   {NUMERO} {
-          return createToken(sym.NUMERO);
-      }
+    return createToken(sym.NUMERO);
+  }
 
+  {IDENTIFICADR} {
+    return createToken(sym.IDENTIFICADOR);
+  }
     // incluir aqui el resto de las reglas patron - accion
 
 
    {ESPACIO_BLANCO}	{}
 
 {fin} {
-          yybegin(YYEND);
+          yybegin(END);
           return createToken(sym.END);
       }
     
@@ -192,15 +206,31 @@ fin = "end."{ESPACIO_BLANCO}
 
 }
 
-<YYEND> {
+<COMMENT> {
+    {COMENTARIO_ABRIR} {
+          System.out.println("YYCOMMENT Abrir comentario");
+        commentCount++;
+    }
+    {COMENTARIO_CERRAR} {
+        System.out.println("YYCOMMENT Cerrar comentario");
+        commentCount--;
+        if(commentCount < 1){
+           System.out.println("YYCOMMENT Cambiar a YYINITIAL");
+            yybegin(YYINITIAL);
+        }
+    }
+    [^] {}
+}
+
+<END> {
 
 
  {ESPACIO_BLANCO}	{}
  // error en caso de coincidir con ningún patrón
 
- [^] {
-                                 addLexicalError ("No puede contener texto una vez finalizado el programa");
-                              }
+ [^](\n|\f) {
+    addLexicalError ("No puede contener texto una vez finalizado el programa");
+ }
 
 }
 

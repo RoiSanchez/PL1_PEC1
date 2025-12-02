@@ -100,8 +100,10 @@ terminal Token ASSIGN;
 //Operadores especiales
 terminal Token IN;
 
-//
+//IDENTIFICADORES
 terminal Token NUMERO;
+terminal Token STRING;
+terminal Token IDENTIFICADOR;
 
 // Declaracion de no terminales
 // no modificar los propuestos
