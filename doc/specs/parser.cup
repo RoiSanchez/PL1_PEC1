@@ -110,6 +110,17 @@ terminal Token IDENTIFICADOR;
 
 non terminal  			program;
 non terminal Axiom		axiom;
+non terminal            programDeclaration;
+non terminal            globalDeclaration;
+non terminal            globalConstSectionDeclaration;
+non terminal            globalTypeSectionDeclaration;
+non terminal            globalVarSectionDeclaration;
+non terminal            globalSubProgramSectionDeclaration;
+non terminal            instructionsBlock;
+non terminal            instructions;
+non terminal            instruction;
+non terminal            writeInstruction;
+non terminal            type;
 // ...
 
 
@@ -134,4 +145,30 @@ program ::=
    :};
 
 
-axiom ::= ;
+axiom ::= programDeclaration globalDeclaration BEGIN instructionsBlock END_PROGRAM;
+programDeclaration ::= PROGRAM IDENTIFICADOR END_SENTENCE;
+globalDeclaration ::= globalConstSectionDeclaration globalTypeSectionDeclaration globalVarSectionDeclaration globalSubProgramSectionDeclaration
+                    | globalConstSectionDeclaration globalTypeSectionDeclaration globalVarSectionDeclaration
+                    | globalConstSectionDeclaration globalTypeSectionDeclaration globalSubProgramSectionDeclaration
+                    | globalConstSectionDeclaration globalVarSectionDeclaration globalSubProgramSectionDeclaration
+                    | globalConstSectionDeclaration globalTypeSectionDeclaration
+                    | globalConstSectionDeclaration globalVarSectionDeclaration
+                    | globalConstSectionDeclaration globalSubProgramSectionDeclaration
+                    | globalConstSectionDeclaration
+                    | globalTypeSectionDeclaration globalVarSectionDeclaration globalSubProgramSectionDeclaration
+                    | globalTypeSectionDeclaration globalVarSectionDeclaration
+                    | globalTypeSectionDeclaration globalSubProgramSectionDeclaration
+                    | globalTypeSectionDeclaration
+                    | globalVarSectionDeclaration globalSubProgramSectionDeclaration
+                    | globalVarSectionDeclaration
+                    | globalSubProgramSectionDeclaration
+                    |;
+
+globalVarSectionDeclaration ::= VAR IDENTIFICADOR DECLARATE_VAR_CTA_PARAM type END_SENTENCE;
+type ::= INTEGER | BOOLEAN;
+instructionsBlock ::= | instructions;
+instructions ::= instructions instruction
+                | instruction;
+instruction ::= writeInstruction;
+writeInstruction ::= WRITE PARAM_EXPR_OPEN STRING PARAM_EXPR_CLOSE END_SENTENCE
+ | WRITE PARAM_EXPR_OPEN IDENTIFICADOR PARAM_EXPR_CLOSE END_SENTENCE;

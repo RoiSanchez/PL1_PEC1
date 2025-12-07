@@ -7,9 +7,6 @@ De esta forma tenemos el código de creación de tokens y de manejo de errores c
 
 ## Controles de error
 
-Se controlan que las secciones principales const, type y var no se repiten. Estas palabras reservadas tan solo pueden 
-aparecer una vez.
-
 Se controla que no puede haber números de varios dígitos que empiezan por 0.
 
 Se controla que no se introduce ningún caracter tras el fin de programa.

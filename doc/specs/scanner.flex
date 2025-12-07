@@ -29,9 +29,6 @@ import es.uned.lsi.compiler.lexical.LexicalErrorManager;
 %{
   LexicalErrorManager lexicalErrorManager = new LexicalErrorManager ();
   private int commentCount = 0;
-  private int constCount = 0;
-  private int typeCount = 0;
-  private int varCount = 0;
 
 
   private Token createToken(int tokenIdType) {
@@ -70,7 +67,7 @@ NUMERO_INICIA_CERO ="0"{DIGITO_POSITIVO}({DIGITO}*)
 NUMERO=("0" | {DIGITO_POSITIVO}({DIGITO}*))
 STRING="\"".*"\""
 IDENTIFICADR=[A-Za-z]([A-Za-z]|[0-9])*
-fin = "end."{ESPACIO_BLANCO}
+fin = "end."
 
 
 %%
@@ -103,14 +100,10 @@ fin = "end."{ESPACIO_BLANCO}
   "begin" { return createToken(sym.BEGIN); }
   "boolean" { return createToken(sym.BOOLEAN); }
   "const"  {
-                    if(constCount == 0){
-                      constCount++;
                       return createToken(sym.CONST);
-                    } else {
-                        addLexicalError ("La palabra reservada const tan solo puede aparecer una vez");
-                    }
                 }
   "else" { return createToken(sym.ELSE); }
+  {fin} { return createToken(sym.END_PROGRAM); }
   "end" { return createToken(sym.END); }
   "false" { return createToken(sym.FALSE); }
   "function" { return createToken(sym.FUNCTION); }
@@ -125,21 +118,11 @@ fin = "end."{ESPACIO_BLANCO}
   "then"  { return createToken(sym.THEN); }
   "true"  { return createToken(sym.TRUE); }
   "type" {
-             if(typeCount == 0){
-               typeCount++;
                return createToken(sym.TYPE);
-             } else {
-                 addLexicalError ("La palabra reservada type tan solo puede aparecer una vez");
-             }
          }
   "until"  { return createToken(sym.UNTIL); }
   "var"  {
-          if(varCount == 0){
-            varCount++;
             return createToken(sym.VAR);
-          } else {
-              addLexicalError ("La palabra reservada var tan solo puede aparecer una vez");
-          }
       }
   "write"  { return createToken(sym.WRITE); }
   /* *******************************
