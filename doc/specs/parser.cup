@@ -116,6 +116,8 @@ non terminal            globalConstSectionDeclaration;
 non terminal            globalTypeSectionDeclaration;
 non terminal            globalVarSectionDeclaration;
 non terminal            globalSubProgramSectionDeclaration;
+non terminal            constDeclarations;
+non terminal            constDeclaration;
 non terminal            instructionsBlock;
 non terminal            instructions;
 non terminal            instruction;
@@ -165,6 +167,12 @@ globalDeclaration ::= globalConstSectionDeclaration globalTypeSectionDeclaration
                     |;
 
 globalVarSectionDeclaration ::= VAR IDENTIFICADOR DECLARATE_VAR_CTA_PARAM type END_SENTENCE;
+globalConstSectionDeclaration ::= CONST | CONST constDeclarations;
+constDeclarations ::= constDeclarations constDeclaration | constDeclaration;
+constDeclaration ::=  IDENTIFICADOR EQUAL TRUE END_SENTENCE
+                    | IDENTIFICADOR EQUAL FALSE END_SENTENCE
+                    | IDENTIFICADOR EQUAL STRING END_SENTENCE
+                    | IDENTIFICADOR EQUAL NUMERO END_SENTENCE;
 type ::= INTEGER | BOOLEAN;
 instructionsBlock ::= | instructions;
 instructions ::= instructions instruction
