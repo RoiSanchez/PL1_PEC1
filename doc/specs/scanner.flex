@@ -126,6 +126,10 @@ fin = "end."
       }
   "write"  { return createToken(sym.WRITE); }
   /* *******************************
+    Operadores asignación
+    ******************************** */
+    ":=" { return createToken(sym.ASSIGN); }
+  /* *******************************
   DELIMITADORES
   ******************************** */
   "\"" { return createToken(sym.DOUBLE_QUOTE); }
@@ -150,10 +154,7 @@ fin = "end."
   ******************************** */
   ">" { return createToken(sym.GREATER_THAN); }
   "<>" { return createToken(sym.NOT_EQUAL); }
-  /* *******************************
-  Operadores asignación
-  ******************************** */
-  ":=" { return createToken(sym.ASSIGN); }
+
   /* *******************************
   Operadores especiales
   ******************************** */

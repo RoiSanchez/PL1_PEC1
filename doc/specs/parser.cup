@@ -122,12 +122,16 @@ non terminal            instructionsBlock;
 non terminal            instructions;
 non terminal            instruction;
 non terminal            writeInstruction;
+non terminal            aritmeticAssignInstruction;
 non terminal            type;
+non terminal            aritmeticOp;
+non terminal            aritmeticSymbol;
 // ...
 
 
 // Declaracion de relaciones de precedencia
-precedence left     PLUS,
+precedence left     MULTI,
+                    PLUS,
                     MINUS;
 // ...
 
@@ -177,6 +181,11 @@ type ::= INTEGER | BOOLEAN;
 instructionsBlock ::= | instructions;
 instructions ::= instructions instruction
                 | instruction;
-instruction ::= writeInstruction;
+instruction ::= writeInstruction | aritmeticAssignInstruction;
 writeInstruction ::= WRITE PARAM_EXPR_OPEN STRING PARAM_EXPR_CLOSE END_SENTENCE
  | WRITE PARAM_EXPR_OPEN IDENTIFICADOR PARAM_EXPR_CLOSE END_SENTENCE;
+aritmeticAssignInstruction ::= IDENTIFICADOR ASSIGN aritmeticOp END_SENTENCE;
+aritmeticOp ::= aritmeticOp aritmeticSymbol aritmeticOp
+                | PARAM_EXPR_OPEN aritmeticOp PARAM_EXPR_CLOSE
+                | NUMERO;
+aritmeticSymbol ::= PLUS | MINUS | MULTI;
