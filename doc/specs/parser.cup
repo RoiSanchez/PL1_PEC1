@@ -126,6 +126,13 @@ non terminal            aritmeticAssignInstruction;
 non terminal            type;
 non terminal            aritmeticOp;
 non terminal            aritmeticSymbol;
+non terminal            conditionalBlock;
+non terminal            conditionalExpr;
+non terminal            conditionalSentences;
+non terminal            conditionalElseSentences;
+non terminal            logicalExpr;
+non terminal            logicalOperator;
+non terminal            logicalTerm;
 // ...
 
 
@@ -133,6 +140,11 @@ non terminal            aritmeticSymbol;
 precedence left     MULTI,
                     PLUS,
                     MINUS;
+
+precedence left     OR,
+                    NOT_EQUAL,
+                    GREATER_THAN;
+precedence left     ELSE;
 // ...
 
 // Declaraci�n de reglas de produccion
@@ -178,14 +190,34 @@ constDeclaration ::=  IDENTIFICADOR EQUAL TRUE END_SENTENCE
                     | IDENTIFICADOR EQUAL STRING END_SENTENCE
                     | IDENTIFICADOR EQUAL NUMERO END_SENTENCE;
 type ::= INTEGER | BOOLEAN;
+// INSTRUCTION BLOCK
 instructionsBlock ::= | instructions;
 instructions ::= instructions instruction
                 | instruction;
-instruction ::= writeInstruction | aritmeticAssignInstruction;
+instruction ::= writeInstruction | aritmeticAssignInstruction | conditionalBlock;
+
+//WRITE INSTRUCTION
 writeInstruction ::= WRITE PARAM_EXPR_OPEN STRING PARAM_EXPR_CLOSE END_SENTENCE
  | WRITE PARAM_EXPR_OPEN IDENTIFICADOR PARAM_EXPR_CLOSE END_SENTENCE;
+
+//INSTRUCCIONES ARITMETICAS
 aritmeticAssignInstruction ::= IDENTIFICADOR ASSIGN aritmeticOp END_SENTENCE;
 aritmeticOp ::= aritmeticOp aritmeticSymbol aritmeticOp
                 | PARAM_EXPR_OPEN aritmeticOp PARAM_EXPR_CLOSE
                 | NUMERO;
 aritmeticSymbol ::= PLUS | MINUS | MULTI;
+//CONDICIONAL
+conditionalBlock ::=   conditionalExpr conditionalSentences;
+conditionalExpr ::= IF PARAM_EXPR_OPEN logicalExpr PARAM_EXPR_CLOSE THEN;
+conditionalSentences ::= instruction conditionalElseSentences;
+conditionalElseSentences ::= ELSE instruction |;
+//EXPRESION BOOLEANA
+logicalExpr ::=   logicalTerm
+                | logicalExpr logicalOperator logicalExpr;
+logicalOperator ::= GREATER_THAN | NOT_EQUAL | OR;
+logicalTerm ::= TRUE
+                | FALSE
+                | STRING
+                | NUMERO
+                | IDENTIFICADOR
+                | PARAM_EXPR_OPEN logicalExpr PARAM_EXPR_CLOSE;
