@@ -115,6 +115,7 @@ non terminal            globalDeclaration;
 non terminal            globalConstSectionDeclaration;
 non terminal            globalTypeSectionDeclaration;
 non terminal            globalVarSectionDeclaration;
+non terminal            globalVarsDeclaration;
 non terminal            globalSubProgramSectionDeclaration;
 non terminal            constDeclarations;
 non terminal            constDeclaration;
@@ -122,6 +123,7 @@ non terminal            instructionsBlock;
 non terminal            instructions;
 non terminal            instruction;
 non terminal            writeInstruction;
+non terminal            assignConjInstruction;
 non terminal            aritmeticAssignInstruction;
 non terminal            type;
 non terminal            aritmeticOp;
@@ -182,29 +184,40 @@ globalDeclaration ::= globalConstSectionDeclaration globalTypeSectionDeclaration
                     | globalSubProgramSectionDeclaration
                     |;
 
-globalVarSectionDeclaration ::= VAR IDENTIFICADOR DECLARATE_VAR_CTA_PARAM type END_SENTENCE;
+//GLOBAL CONFIGURATIONS
+globalVarSectionDeclaration ::= VAR globalVarsDeclaration;
+globalVarsDeclaration ::= globalVarsDeclaration IDENTIFICADOR DECLARATE_VAR_CTA_PARAM type END_SENTENCE |;
 globalConstSectionDeclaration ::= CONST | CONST constDeclarations;
 constDeclarations ::= constDeclarations constDeclaration | constDeclaration;
 constDeclaration ::=  IDENTIFICADOR EQUAL TRUE END_SENTENCE
                     | IDENTIFICADOR EQUAL FALSE END_SENTENCE
                     | IDENTIFICADOR EQUAL STRING END_SENTENCE
                     | IDENTIFICADOR EQUAL NUMERO END_SENTENCE;
-type ::= INTEGER | BOOLEAN;
+
+globalTypeSectionDeclaration ::= TYPE IDENTIFICADOR EQUAL SET OF NUMERO VALUE_RANGE_DELIMITER NUMERO END_SENTENCE;
+
+// var types
+type ::= INTEGER | BOOLEAN | IDENTIFICADOR;
 // INSTRUCTION BLOCK
 instructionsBlock ::= | instructions;
 instructions ::= instructions instruction
                 | instruction;
-instruction ::= writeInstruction | aritmeticAssignInstruction | conditionalBlock;
+instruction ::= writeInstruction | assignConjInstruction | aritmeticAssignInstruction | conditionalBlock;
 
 //WRITE INSTRUCTION
 writeInstruction ::= WRITE PARAM_EXPR_OPEN STRING PARAM_EXPR_CLOSE END_SENTENCE
  | WRITE PARAM_EXPR_OPEN IDENTIFICADOR PARAM_EXPR_CLOSE END_SENTENCE;
 
+//INSTRUCCION DE ASIGNACIÓN
+assignConjInstruction ::=  IDENTIFICADOR ASSIGN RANGE_OPEN NUMERO VALUE_RANGE_DELIMITER NUMERO RANGE_CLOSE END_SENTENCE
+                         | IDENTIFICADOR ASSIGN RANGE_OPEN RANGE_CLOSE END_SENTENCE;
+
 //INSTRUCCIONES ARITMETICAS
 aritmeticAssignInstruction ::= IDENTIFICADOR ASSIGN aritmeticOp END_SENTENCE;
 aritmeticOp ::= aritmeticOp aritmeticSymbol aritmeticOp
                 | PARAM_EXPR_OPEN aritmeticOp PARAM_EXPR_CLOSE
-                | NUMERO;
+                | NUMERO
+                | IDENTIFICADOR;
 aritmeticSymbol ::= PLUS | MINUS | MULTI;
 //CONDICIONAL
 conditionalBlock ::=   conditionalExpr conditionalSentences;
