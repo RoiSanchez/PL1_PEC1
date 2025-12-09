@@ -57,6 +57,12 @@ import es.uned.lsi.compiler.lexical.LexicalErrorManager;
 
 %}
 
+%eof{
+    if(commentCount > 0){
+        addLexicalError ("Los comentarios no se han cerrado correctamente");
+    }
+%eof}
+
 COMENTARIO_LINEA="//".*\n
 COMENTARIO_ABRIR="{"
 COMENTARIO_CERRAR="}"

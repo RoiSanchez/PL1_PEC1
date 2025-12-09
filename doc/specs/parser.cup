@@ -114,6 +114,7 @@ non terminal            programDeclaration;
 non terminal            globalDeclaration;
 non terminal            globalConstSectionDeclaration;
 non terminal            globalTypeSectionDeclaration;
+non terminal            globalTypesDeclaration;
 non terminal            globalVarSectionDeclaration;
 non terminal            globalVarsDeclaration;
 non terminal            globalSubProgramSectionDeclaration;
@@ -133,6 +134,7 @@ non terminal            conditionalExpr;
 non terminal            conditionalSentences;
 non terminal            conditionalElseSentences;
 non terminal            logicalExpr;
+non terminal            logicalInConjExpr;
 non terminal            logicalOperator;
 non terminal            logicalTerm;
 // ...
@@ -194,8 +196,8 @@ constDeclaration ::=  IDENTIFICADOR EQUAL TRUE END_SENTENCE
                     | IDENTIFICADOR EQUAL STRING END_SENTENCE
                     | IDENTIFICADOR EQUAL NUMERO END_SENTENCE;
 
-globalTypeSectionDeclaration ::= TYPE IDENTIFICADOR EQUAL SET OF NUMERO VALUE_RANGE_DELIMITER NUMERO END_SENTENCE;
-
+globalTypeSectionDeclaration ::= TYPE globalTypesDeclaration;
+globalTypesDeclaration ::= globalTypesDeclaration IDENTIFICADOR EQUAL SET OF NUMERO VALUE_RANGE_DELIMITER NUMERO END_SENTENCE |;
 // var types
 type ::= INTEGER | BOOLEAN | IDENTIFICADOR;
 // INSTRUCTION BLOCK
@@ -225,8 +227,10 @@ conditionalExpr ::= IF PARAM_EXPR_OPEN logicalExpr PARAM_EXPR_CLOSE THEN;
 conditionalSentences ::= instruction conditionalElseSentences;
 conditionalElseSentences ::= ELSE instruction |;
 //EXPRESION BOOLEANA
+logicalInConjExpr ::= NUMERO IN IDENTIFICADOR;
 logicalExpr ::=   logicalTerm
-                | logicalExpr logicalOperator logicalExpr;
+                | logicalExpr logicalOperator logicalExpr
+                | logicalInConjExpr;
 logicalOperator ::= GREATER_THAN | NOT_EQUAL | OR;
 logicalTerm ::= TRUE
                 | FALSE
