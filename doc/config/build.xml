@@ -7,9 +7,9 @@
 	<!-- modificar esta entrada poniendo en location el nombre del archivo fuente que 
 		se quiera compilar
 	-->
-	
-	<property name="test-file-name" value="testCase07.p"/>
-	
+
+	<property name="test-file-name" value="testCase08.p"/>
+
 	<property name="lib" location="lib"/>
 	<property name="test" location="doc/test"/>
 	<property name="specs" location="doc/specs"/>

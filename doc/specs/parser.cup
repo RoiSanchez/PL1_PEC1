@@ -118,6 +118,9 @@ non terminal            globalTypesDeclaration;
 non terminal            globalVarSectionDeclaration;
 non terminal            globalVarsDeclaration;
 non terminal            globalSubProgramSectionDeclaration;
+non terminal            subProgramSectionHeaderDeclaration;
+non terminal            procedureArgs;
+non terminal            paramDeclaration;
 non terminal            constDeclarations;
 non terminal            constDeclaration;
 non terminal            instructionsBlock;
@@ -126,6 +129,7 @@ non terminal            instruction;
 non terminal            writeInstruction;
 non terminal            assignConjInstruction;
 non terminal            aritmeticAssignInstruction;
+non terminal            callInstruction;
 non terminal            type;
 non terminal            aritmeticOp;
 non terminal            aritmeticSymbol;
@@ -187,8 +191,9 @@ globalDeclaration ::= globalConstSectionDeclaration globalTypeSectionDeclaration
                     |;
 
 //GLOBAL CONFIGURATIONS
+paramDeclaration ::= IDENTIFICADOR DECLARATE_VAR_CTA_PARAM type;
 globalVarSectionDeclaration ::= VAR globalVarsDeclaration;
-globalVarsDeclaration ::= globalVarsDeclaration IDENTIFICADOR DECLARATE_VAR_CTA_PARAM type END_SENTENCE |;
+globalVarsDeclaration ::= globalVarsDeclaration paramDeclaration END_SENTENCE |;
 globalConstSectionDeclaration ::= CONST | CONST constDeclarations;
 constDeclarations ::= constDeclarations constDeclaration | constDeclaration;
 constDeclaration ::=  IDENTIFICADOR EQUAL TRUE END_SENTENCE
@@ -198,17 +203,24 @@ constDeclaration ::=  IDENTIFICADOR EQUAL TRUE END_SENTENCE
 
 globalTypeSectionDeclaration ::= TYPE globalTypesDeclaration;
 globalTypesDeclaration ::= globalTypesDeclaration IDENTIFICADOR EQUAL SET OF NUMERO VALUE_RANGE_DELIMITER NUMERO END_SENTENCE |;
+//DECLARACION DE PROCEDURE
+globalSubProgramSectionDeclaration ::= subProgramSectionHeaderDeclaration BEGIN instructionsBlock END END_SENTENCE;
+subProgramSectionHeaderDeclaration ::= PROCEDURE IDENTIFICADOR PARAM_EXPR_OPEN procedureArgs PARAM_EXPR_CLOSE END_SENTENCE;
+procedureArgs ::= paramDeclaration;
 // var types
 type ::= INTEGER | BOOLEAN | IDENTIFICADOR;
 // INSTRUCTION BLOCK
 instructionsBlock ::= | instructions;
 instructions ::= instructions instruction
                 | instruction;
-instruction ::= writeInstruction | assignConjInstruction | aritmeticAssignInstruction | conditionalBlock;
+instruction ::= writeInstruction | callInstruction | assignConjInstruction | aritmeticAssignInstruction | conditionalBlock;
 
 //WRITE INSTRUCTION
 writeInstruction ::= WRITE PARAM_EXPR_OPEN STRING PARAM_EXPR_CLOSE END_SENTENCE
  | WRITE PARAM_EXPR_OPEN IDENTIFICADOR PARAM_EXPR_CLOSE END_SENTENCE;
+
+//Instruccion de llamada a función o procedure
+callInstruction ::= IDENTIFICADOR PARAM_EXPR_OPEN IDENTIFICADOR PARAM_EXPR_CLOSE END_SENTENCE;
 
 //INSTRUCCION DE ASIGNACIÓN
 assignConjInstruction ::=  IDENTIFICADOR ASSIGN RANGE_OPEN NUMERO VALUE_RANGE_DELIMITER NUMERO RANGE_CLOSE END_SENTENCE
