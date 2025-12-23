@@ -150,6 +150,7 @@ non terminal            logicalExpr;
 non terminal            logicalInConjExpr;
 non terminal            logicalOperator;
 non terminal            logicalTerm;
+non terminal            repeatUntil;
 // ...
 
 
@@ -238,7 +239,12 @@ type ::= primitiveType | IDENTIFICADOR;
 instructionsBlock ::= | instructions;
 instructions ::= instructions instruction
                 | instruction;
-instruction ::= writeInstruction | callInstruction  | assignConjInstruction | aritmeticAssignInstruction | conditionalBlock;
+instruction ::=   writeInstruction
+                | callInstruction
+                | assignConjInstruction
+                | aritmeticAssignInstruction
+                | conditionalBlock
+                | repeatUntil;
 
 //WRITE INSTRUCTION
 writeInstruction ::= WRITE PARENTHESIS_OPEN STRING PARENTHESIS_CLOSE END_SENTENCE
@@ -276,3 +282,7 @@ logicalTerm ::= TRUE
                 | NUMERO
                 | IDENTIFICADOR
                 | PARENTHESIS_OPEN logicalExpr PARENTHESIS_CLOSE;
+
+ //BUCLES
+ //   - rpeat until
+ repeatUntil ::= REPEAT instructionsBlock UNTIL PARENTHESIS_OPEN logicalExpr PARENTHESIS_CLOSE END_SENTENCE;
