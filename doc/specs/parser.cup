@@ -77,8 +77,8 @@ terminal Token VAR;
 terminal Token WRITE;
 //delimitadores
 terminal Token DOUBLE_QUOTE;
-terminal Token PARAM_EXPR_OPEN;
-terminal Token PARAM_EXPR_CLOSE;
+terminal Token PARENTHESIS_OPEN;
+terminal Token PARENTHESIS_CLOSE;
 terminal Token RANGE_OPEN;
 terminal Token RANGE_CLOSE;
 terminal Token INT_LIST_DELIMITER;
@@ -86,7 +86,7 @@ terminal Token VALUE_RANGE_DELIMITER;
 terminal Token END_PROGRAM;
 terminal Token END_SENTENCE;
 terminal Token EQUAL;
-terminal Token DECLARATE_VAR_CTA_PARAM;
+terminal Token COLON;
 terminal Token ASSIGN_VALUE_VAR_CTE;
 //Operadores aritmeticos
 terminal Token PLUS;
@@ -118,8 +118,15 @@ non terminal            globalTypesDeclaration;
 non terminal            globalVarSectionDeclaration;
 non terminal            globalVarsDeclaration;
 non terminal            globalSubProgramSectionDeclaration;
-non terminal            subProgramSectionHeaderDeclaration;
+non terminal            globalSubProgramSectionDeclarations;
+non terminal            globalSubProgramSectionDeclarationsIntruction;
+non terminal            globalProcedureSectionDeclaration;
+non terminal            procedureSectionHeaderDeclaration;
+non terminal            globalFunctionSectionDeclaration;
+non terminal            functionSectionHeaderDeclaration;
+non terminal            subProgramBody;
 non terminal            procedureArgs;
+non terminal            paramIdentificators;
 non terminal            paramDeclaration;
 non terminal            constDeclarations;
 non terminal            constDeclaration;
@@ -130,6 +137,8 @@ non terminal            writeInstruction;
 non terminal            assignConjInstruction;
 non terminal            aritmeticAssignInstruction;
 non terminal            callInstruction;
+non terminal            asignCallInstruction;
+non terminal            primitiveType;
 non terminal            type;
 non terminal            aritmeticOp;
 non terminal            aritmeticSymbol;
@@ -191,9 +200,12 @@ globalDeclaration ::= globalConstSectionDeclaration globalTypeSectionDeclaration
                     |;
 
 //GLOBAL CONFIGURATIONS
-paramDeclaration ::= IDENTIFICADOR DECLARATE_VAR_CTA_PARAM type;
+paramIdentificators ::= paramIdentificators INT_LIST_DELIMITER IDENTIFICADOR | IDENTIFICADOR;
+paramDeclaration ::= paramIdentificators COLON type;
+//Declaracińo variables
 globalVarSectionDeclaration ::= VAR globalVarsDeclaration;
 globalVarsDeclaration ::= globalVarsDeclaration paramDeclaration END_SENTENCE |;
+//Declaración constantes
 globalConstSectionDeclaration ::= CONST | CONST constDeclarations;
 constDeclarations ::= constDeclarations constDeclaration | constDeclaration;
 constDeclaration ::=  IDENTIFICADOR EQUAL TRUE END_SENTENCE
@@ -203,24 +215,38 @@ constDeclaration ::=  IDENTIFICADOR EQUAL TRUE END_SENTENCE
 
 globalTypeSectionDeclaration ::= TYPE globalTypesDeclaration;
 globalTypesDeclaration ::= globalTypesDeclaration IDENTIFICADOR EQUAL SET OF NUMERO VALUE_RANGE_DELIMITER NUMERO END_SENTENCE |;
-//DECLARACION DE PROCEDURE
-globalSubProgramSectionDeclaration ::= subProgramSectionHeaderDeclaration BEGIN instructionsBlock END END_SENTENCE;
-subProgramSectionHeaderDeclaration ::= PROCEDURE IDENTIFICADOR PARAM_EXPR_OPEN procedureArgs PARAM_EXPR_CLOSE END_SENTENCE;
+//DECLARACION DE SUBPROGRAMA
+globalSubProgramSectionDeclaration ::= globalSubProgramSectionDeclarations;
+globalSubProgramSectionDeclarations ::= globalSubProgramSectionDeclarations globalSubProgramSectionDeclarationsIntruction
+                                        | globalSubProgramSectionDeclarationsIntruction;
+globalSubProgramSectionDeclarationsIntruction ::= globalFunctionSectionDeclaration | globalProcedureSectionDeclaration;
+//  - DECLARACION DE PROCEDURE
+subProgramBody ::= BEGIN instructionsBlock END END_SENTENCE;
+globalProcedureSectionDeclaration ::= procedureSectionHeaderDeclaration subProgramBody
+                                      | procedureSectionHeaderDeclaration globalVarSectionDeclaration subProgramBody;
+procedureSectionHeaderDeclaration ::= PROCEDURE IDENTIFICADOR PARENTHESIS_OPEN procedureArgs PARENTHESIS_CLOSE END_SENTENCE;
 procedureArgs ::= paramDeclaration;
+//  - DECLARACION DE FUNCTION
+globalFunctionSectionDeclaration ::= functionSectionHeaderDeclaration subProgramBody
+                                     | functionSectionHeaderDeclaration globalVarSectionDeclaration subProgramBody;
+functionSectionHeaderDeclaration ::= FUNCTION IDENTIFICADOR PARENTHESIS_OPEN procedureArgs PARENTHESIS_CLOSE COLON primitiveType END_SENTENCE;
+
 // var types
-type ::= INTEGER | BOOLEAN | IDENTIFICADOR;
+primitiveType ::= INTEGER | BOOLEAN;
+type ::= primitiveType | IDENTIFICADOR;
 // INSTRUCTION BLOCK
 instructionsBlock ::= | instructions;
 instructions ::= instructions instruction
                 | instruction;
-instruction ::= writeInstruction | callInstruction | assignConjInstruction | aritmeticAssignInstruction | conditionalBlock;
+instruction ::= writeInstruction | callInstruction  | assignConjInstruction | aritmeticAssignInstruction | conditionalBlock;
 
 //WRITE INSTRUCTION
-writeInstruction ::= WRITE PARAM_EXPR_OPEN STRING PARAM_EXPR_CLOSE END_SENTENCE
- | WRITE PARAM_EXPR_OPEN IDENTIFICADOR PARAM_EXPR_CLOSE END_SENTENCE;
+writeInstruction ::= WRITE PARENTHESIS_OPEN STRING PARENTHESIS_CLOSE END_SENTENCE
+ | WRITE PARENTHESIS_OPEN IDENTIFICADOR PARENTHESIS_CLOSE END_SENTENCE;
 
 //Instruccion de llamada a función o procedure
-callInstruction ::= IDENTIFICADOR PARAM_EXPR_OPEN IDENTIFICADOR PARAM_EXPR_CLOSE END_SENTENCE;
+callInstruction ::= IDENTIFICADOR ASSIGN IDENTIFICADOR PARENTHESIS_OPEN IDENTIFICADOR PARENTHESIS_CLOSE END_SENTENCE
+                    | IDENTIFICADOR PARENTHESIS_OPEN IDENTIFICADOR PARENTHESIS_CLOSE END_SENTENCE;
 
 //INSTRUCCION DE ASIGNACIÓN
 assignConjInstruction ::=  IDENTIFICADOR ASSIGN RANGE_OPEN NUMERO VALUE_RANGE_DELIMITER NUMERO RANGE_CLOSE END_SENTENCE
@@ -229,13 +255,13 @@ assignConjInstruction ::=  IDENTIFICADOR ASSIGN RANGE_OPEN NUMERO VALUE_RANGE_DE
 //INSTRUCCIONES ARITMETICAS
 aritmeticAssignInstruction ::= IDENTIFICADOR ASSIGN aritmeticOp END_SENTENCE;
 aritmeticOp ::= aritmeticOp aritmeticSymbol aritmeticOp
-                | PARAM_EXPR_OPEN aritmeticOp PARAM_EXPR_CLOSE
+                | PARENTHESIS_OPEN aritmeticOp PARENTHESIS_CLOSE
                 | NUMERO
                 | IDENTIFICADOR;
 aritmeticSymbol ::= PLUS | MINUS | MULTI;
 //CONDICIONAL
 conditionalBlock ::=   conditionalExpr conditionalSentences;
-conditionalExpr ::= IF PARAM_EXPR_OPEN logicalExpr PARAM_EXPR_CLOSE THEN;
+conditionalExpr ::= IF PARENTHESIS_OPEN logicalExpr PARENTHESIS_CLOSE THEN;
 conditionalSentences ::= instruction conditionalElseSentences;
 conditionalElseSentences ::= ELSE instruction |;
 //EXPRESION BOOLEANA
@@ -249,4 +275,4 @@ logicalTerm ::= TRUE
                 | STRING
                 | NUMERO
                 | IDENTIFICADOR
-                | PARAM_EXPR_OPEN logicalExpr PARAM_EXPR_CLOSE;
+                | PARENTHESIS_OPEN logicalExpr PARENTHESIS_CLOSE;

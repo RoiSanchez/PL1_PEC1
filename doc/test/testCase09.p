@@ -27,7 +27,6 @@ begin
 
         z:=1;
         v:= incrementa (z);
-
         write("v(2):");
         write(v);
 	

@@ -139,15 +139,15 @@ fin = "end."
   DELIMITADORES
   ******************************** */
   "\"" { return createToken(sym.DOUBLE_QUOTE); }
-  "(" { return createToken(sym.PARAM_EXPR_OPEN); }
-  ")"  { return createToken(sym.PARAM_EXPR_CLOSE); }
+  "(" { return createToken(sym.PARENTHESIS_OPEN); }
+  ")"  { return createToken(sym.PARENTHESIS_CLOSE); }
   "[" { return createToken(sym.RANGE_OPEN); }
   "]"  { return createToken(sym.RANGE_CLOSE); }
   "," { return createToken(sym.INT_LIST_DELIMITER); }
   ".."  { return createToken(sym.VALUE_RANGE_DELIMITER); }
   "."  { return createToken(sym.END_PROGRAM); }
   ";"  { return createToken(sym.END_SENTENCE); }
-  ":"  { return createToken(sym.DECLARATE_VAR_CTA_PARAM); }
+  ":"  { return createToken(sym.COLON); }
   "="  { return createToken(sym.EQUAL); }
   /* *******************************
   OPERADORES ARITMETICOS
@@ -183,11 +183,7 @@ fin = "end."
 
    {ESPACIO_BLANCO}	{}
 
-{fin} {
-          yybegin(END);
-          return createToken(sym.END);
-      }
-    
+
     // error en caso de coincidir con ningún patrón
 	[^]
                         {                                               
