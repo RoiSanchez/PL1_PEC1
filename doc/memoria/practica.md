@@ -33,3 +33,6 @@ Test16 - Ejemplo que contiene un comentario de varias líneas
 Test17 - Ejemplo con comentario de línea dentro comentario multilinea
 Test18 - Ejemplo con comentario anidado
 Test19 - Ejemplo con funcion con dos parámetros de un tipo (integer) y otra de otro tipo (boolean)
+Test20 - Ejemplo con dos funciones
+Test21 - Ejemplo con procedure y función
+Test22 - Ejemplo con funcion sin parámetros y con seccion de constantes

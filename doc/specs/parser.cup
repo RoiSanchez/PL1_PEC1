@@ -226,12 +226,16 @@ globalSubProgramSectionDeclarationsIntruction ::= globalFunctionSectionDeclarati
 //  - DECLARACION DE PROCEDURE
 subProgramBody ::= BEGIN instructionsBlock END END_SENTENCE;
 globalProcedureSectionDeclaration ::= procedureSectionHeaderDeclaration subProgramBody
-                                      | procedureSectionHeaderDeclaration globalVarSectionDeclaration subProgramBody;
+                                      | procedureSectionHeaderDeclaration globalConstSectionDeclaration subProgramBody
+                                      | procedureSectionHeaderDeclaration globalVarSectionDeclaration subProgramBody
+                                      | procedureSectionHeaderDeclaration globalConstSectionDeclaration globalVarSectionDeclaration subProgramBody;
 procedureSectionHeaderDeclaration ::= PROCEDURE IDENTIFICADOR PARENTHESIS_OPEN procedureArgs PARENTHESIS_CLOSE END_SENTENCE;
-procedureArgs ::= paramsDeclaration;
+procedureArgs ::= paramsDeclaration |;
 //  - DECLARACION DE FUNCTION
-globalFunctionSectionDeclaration ::= functionSectionHeaderDeclaration subProgramBody
-                                     | functionSectionHeaderDeclaration globalVarSectionDeclaration subProgramBody;
+globalFunctionSectionDeclaration ::= functionSectionHeaderDeclaration  subProgramBody
+                                     | functionSectionHeaderDeclaration globalVarSectionDeclaration subProgramBody
+                                     | functionSectionHeaderDeclaration globalConstSectionDeclaration subProgramBody
+                                     | functionSectionHeaderDeclaration globalConstSectionDeclaration globalVarSectionDeclaration subProgramBody;
 functionSectionHeaderDeclaration ::= FUNCTION IDENTIFICADOR PARENTHESIS_OPEN procedureArgs PARENTHESIS_CLOSE COLON primitiveType END_SENTENCE;
 
 // var types
