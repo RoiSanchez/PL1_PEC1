@@ -128,6 +128,7 @@ non terminal            subProgramBody;
 non terminal            procedureArgs;
 non terminal            paramIdentificators;
 non terminal            paramDeclaration;
+non terminal            paramsDeclaration;
 non terminal            constDeclarations;
 non terminal            constDeclaration;
 non terminal            instructionsBlock;
@@ -203,6 +204,7 @@ globalDeclaration ::= globalConstSectionDeclaration globalTypeSectionDeclaration
 //GLOBAL CONFIGURATIONS
 paramIdentificators ::= paramIdentificators INT_LIST_DELIMITER IDENTIFICADOR | IDENTIFICADOR;
 paramDeclaration ::= paramIdentificators COLON type;
+paramsDeclaration ::= paramDeclaration | paramsDeclaration END_SENTENCE paramDeclaration;
 //Declaracińo variables
 globalVarSectionDeclaration ::= VAR globalVarsDeclaration;
 globalVarsDeclaration ::= globalVarsDeclaration paramDeclaration END_SENTENCE |;
@@ -226,7 +228,7 @@ subProgramBody ::= BEGIN instructionsBlock END END_SENTENCE;
 globalProcedureSectionDeclaration ::= procedureSectionHeaderDeclaration subProgramBody
                                       | procedureSectionHeaderDeclaration globalVarSectionDeclaration subProgramBody;
 procedureSectionHeaderDeclaration ::= PROCEDURE IDENTIFICADOR PARENTHESIS_OPEN procedureArgs PARENTHESIS_CLOSE END_SENTENCE;
-procedureArgs ::= paramDeclaration;
+procedureArgs ::= paramsDeclaration;
 //  - DECLARACION DE FUNCTION
 globalFunctionSectionDeclaration ::= functionSectionHeaderDeclaration subProgramBody
                                      | functionSectionHeaderDeclaration globalVarSectionDeclaration subProgramBody;

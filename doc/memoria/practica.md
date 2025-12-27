@@ -31,4 +31,5 @@ Test14 - Ejemplo para comprobar que un número con varios dígitos que comienza 
 Test15 - Ejemplo que debe dar error al introducir sentencia tras final de programa
 Test16 - Ejemplo que contiene un comentario de varias líneas
 Test17 - Ejemplo con comentario de línea dentro comentario multilinea
-Test17 - Ejemplo con comentario anidado
+Test18 - Ejemplo con comentario anidado
+Test19 - Ejemplo con funcion con dos parámetros de un tipo (integer) y otra de otro tipo (boolean)
