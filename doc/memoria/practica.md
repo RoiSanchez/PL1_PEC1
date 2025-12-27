@@ -36,3 +36,4 @@ Test19 - Ejemplo con funcion con dos parámetros de un tipo (integer) y otra de 
 Test20 - Ejemplo con dos funciones
 Test21 - Ejemplo con procedure y función
 Test22 - Ejemplo con funcion sin parámetros y con seccion de constantes
+Test23 - Ejemplo con llamada a función sin parámetros
