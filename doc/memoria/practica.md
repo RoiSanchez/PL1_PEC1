@@ -45,3 +45,6 @@ y como segundo los strings para no detectar lexemas incorrectos. Esto se comprue
 - Test30 - Ejemplo con la unión de 3 conjuntos.
 - Test31 - Ejemplo con 3 definiciones de variables de un tipo conjunto en 1 sola linea
 - Test32 - Ejemplo de funcion con seccion de constantes, tipos y variables
+- Test33 - Ejemplo que debe dar error por orden incorrecto de type const y var en definicion de función
+
+SIGUIENTE EJEMPLO A HACER PROCEDURE CON TYPE CONST Y VAR
