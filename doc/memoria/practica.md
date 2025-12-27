@@ -38,3 +38,5 @@ y como segundo los strings para no detectar lexemas incorrectos. Esto se comprue
 - Test22 - Ejemplo con funcion sin parámetros y con seccion de constantes
 - Test23 - Ejemplo con llamada a función sin parámetros
 - test24 - Ejemplo con llamada a función con varios parámetros o con parámetro numérico o booleano o cadena de texto
+- Test25 - Ejemplo con dos variables declaradas del mismo tipo en líneas distintas
+- Test26 - Ejemplo que debe dar error por tener asignado a una constante una expresion.
