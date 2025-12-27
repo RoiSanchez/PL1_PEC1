@@ -40,4 +40,8 @@ y como segundo los strings para no detectar lexemas incorrectos. Esto se comprue
 - test24 - Ejemplo con llamada a función con varios parámetros o con parámetro numérico o booleano o cadena de texto
 - Test25 - Ejemplo con dos variables declaradas del mismo tipo en líneas distintas
 - Test26 - Ejemplo que debe dar error por tener asignado a una constante una expresion.
-  - Test27 - Ejemplo que debe dar error por tener asignado expresiones a ejemplos de tipo conjunto
+- Test27 - Ejemplo que debe dar error por tener asignado expresiones a ejemplos de tipo conjunto
+- Test28 y 29 - Ejemplo que debe dar error por asignaciones erróneas de conjunto
+- Test30 - Ejemplo con la unión de 3 conjuntos.
+- Test31 - Ejemplo con 3 definiciones de variables de un tipo conjunto en 1 sola linea
+- Test32 - Ejemplo de funcion con seccion de constantes, tipos y variables
