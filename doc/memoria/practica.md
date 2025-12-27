@@ -24,16 +24,17 @@ y como segundo los strings para no detectar lexemas incorrectos. Esto se comprue
 
 ## Casos de test adicionales
 
-Test11 - Ejemplo que debe dar error por tener dos secciones var.
-Test12 - Ejemplo que debe dar error por tener dos secciones type.
-Test13 - Ejemplo que debe dar error por tener dos secciones const.
-Test14 - Ejemplo para comprobar que un número con varios dígitos que comienza por 0 lo detecta como erróneo, combinándolo con otros números correctos.
-Test15 - Ejemplo que debe dar error al introducir sentencia tras final de programa
-Test16 - Ejemplo que contiene un comentario de varias líneas
-Test17 - Ejemplo con comentario de línea dentro comentario multilinea
-Test18 - Ejemplo con comentario anidado
-Test19 - Ejemplo con funcion con dos parámetros de un tipo (integer) y otra de otro tipo (boolean)
-Test20 - Ejemplo con dos funciones
-Test21 - Ejemplo con procedure y función
-Test22 - Ejemplo con funcion sin parámetros y con seccion de constantes
-Test23 - Ejemplo con llamada a función sin parámetros
+- Test11 - Ejemplo que debe dar error por tener dos secciones var.
+- Test12 - Ejemplo que debe dar error por tener dos secciones type.
+- Test13 - Ejemplo que debe dar error por tener dos secciones const.
+- Test14 - Ejemplo para comprobar que un número con varios dígitos que comienza por 0 lo detecta como erróneo, combinándolo con otros números correctos.
+- Test15 - Ejemplo que debe dar error al introducir sentencia tras final de programa
+- Test16 - Ejemplo que contiene un comentario de varias líneas
+- Test17 - Ejemplo con comentario de línea dentro comentario multilinea
+- Test18 - Ejemplo con comentario anidado
+- Test19 - Ejemplo con funcion con dos parámetros de un tipo (integer) y otra de otro tipo (boolean)
+- Test20 - Ejemplo con dos funciones
+- Test21 - Ejemplo con procedure y función
+- Test22 - Ejemplo con funcion sin parámetros y con seccion de constantes
+- Test23 - Ejemplo con llamada a función sin parámetros
+- test24 - Ejemplo con llamada a función con varios parámetros o con parámetro numérico o booleano o cadena de texto

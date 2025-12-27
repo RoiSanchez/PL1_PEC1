@@ -138,6 +138,8 @@ non terminal            writeInstruction;
 non terminal            assignConjInstruction;
 non terminal            aritmeticAssignInstruction;
 non terminal            callInstruction;
+non terminal            paramCallInstruction;
+non terminal            paramsCallInstruction;
 non terminal            asignCallInstruction;
 non terminal            primitiveType;
 non terminal            type;
@@ -257,8 +259,10 @@ writeInstruction ::= WRITE PARENTHESIS_OPEN STRING PARENTHESIS_CLOSE END_SENTENC
  | WRITE PARENTHESIS_OPEN IDENTIFICADOR PARENTHESIS_CLOSE END_SENTENCE;
 
 //Instruccion de llamada a función o procedure
-callInstruction ::= IDENTIFICADOR ASSIGN IDENTIFICADOR PARENTHESIS_OPEN IDENTIFICADOR PARENTHESIS_CLOSE END_SENTENCE
-                    | IDENTIFICADOR PARENTHESIS_OPEN IDENTIFICADOR PARENTHESIS_CLOSE END_SENTENCE
+paramsCallInstruction ::= paramsCallInstruction INT_LIST_DELIMITER paramCallInstruction | paramCallInstruction;
+paramCallInstruction ::= IDENTIFICADOR | NUMERO | TRUE | FALSE | STRING;
+callInstruction ::= IDENTIFICADOR ASSIGN IDENTIFICADOR PARENTHESIS_OPEN paramsCallInstruction PARENTHESIS_CLOSE END_SENTENCE
+                    | IDENTIFICADOR PARENTHESIS_OPEN paramsCallInstruction PARENTHESIS_CLOSE END_SENTENCE
                     | IDENTIFICADOR PARENTHESIS_OPEN PARENTHESIS_CLOSE END_SENTENCE;
 
 //INSTRUCCION DE ASIGNACIÓN
